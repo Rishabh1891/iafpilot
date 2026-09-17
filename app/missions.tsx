@@ -15,42 +15,24 @@ interface Mission {
   status: 'scheduled' | 'in-progress' | 'completed';
 }
 
-const HOLIDAYS: Record<string, string> = {
-  '1-26': 'Republic Day',
-  '3-8': 'Maha Shivaratri',
-  '3-25': 'Holi',
-  '3-29': 'Good Friday',
-  '4-11': 'Id-ul-Fitr',
-  '4-14': 'Ambedkar Jayanti',
-  '4-17': 'Ram Navami',
-  '4-21': 'Mahavir Jayanti',
-  '5-23': 'Buddha Purnima',
-  '6-17': 'Id-ul-Zuha',
-  '7-17': 'Muharram',
-  '8-15': 'Independence Day',
-  '8-26': 'Janmashtami',
-  '9-16': 'Milad-un-Nabi',
-  '10-2': 'Gandhi Jayanti',
-  '10-12': 'Dussehra',
-  '10-31': 'Diwali',
-  '11-15': 'Guru Nanak Jayanti',
-  '12-25': 'Christmas',
-};
-
-const getHoliday = (day: number, month: number) => HOLIDAYS[`${month}-${day}`];
-
 export default function MissionsPage() {
   const [currentDate, setCurrentDate] = useState<string>('');
   const [currentTime, setCurrentTime] = useState<string>('');
   const [missions, setMissions] = useState<Mission[]>([]);
   const [selectedMonth, setSelectedMonth] = useState(new Date());
+  const [randomLeaveDays, setRandomLeaveDays] = useState<number[]>([]);
 
   useEffect(() => {
     updateDateTime();
     generateMissions();
+    setRandomLeaveDays(generateRandomLeaveDays(selectedMonth)); // Initial generation of random leaves
     const interval = setInterval(updateDateTime, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    setRandomLeaveDays(generateRandomLeaveDays(selectedMonth)); // Regenerate on month change
+  }, [selectedMonth]);
 
   const updateDateTime = () => {
     const now = new Date();
@@ -130,6 +112,41 @@ export default function MissionsPage() {
     return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
   };
 
+  // Fixed Gazetted Holidays in India + major festivals (approx for 2024/25)
+  const HOLIDAYS_DATA: Record<string, string> = {
+    '1-26': 'Republic Day',
+    '3-8': 'Maha Shivaratri',
+    '3-25': 'Holi',
+    '3-29': 'Good Friday',
+    '4-11': 'Id-ul-Fitr',
+    '4-14': 'Ambedkar Jayanti',
+    '4-17': 'Ram Navami',
+    '4-21': 'Mahavir Jayanti',
+    '5-23': 'Buddha Purnima',
+    '6-17': 'Id-ul-Zuha',
+    '7-17': 'Muharram',
+    '8-15': 'Independence Day',
+    '8-26': 'Janmashtami',
+    '9-16': 'Milad-un-Nabi',
+    '10-2': 'Gandhi Jayanti',
+    '10-12': 'Dussehra',
+    '10-31': 'Diwali',
+    '11-15': 'Guru Nanak Jayanti',
+    '12-25': 'Christmas',
+  };
+
+  const getHoliday = (day: number, month: number) => HOLIDAYS_DATA[`${month}-${day}`];
+
+  const generateRandomLeaveDays = (month: Date) => {
+    const daysInMonth = getDaysInMonth(month);
+    const leaveDays: Set<number> = new Set();
+    while (leaveDays.size < 4) {
+      const randomDay = Math.floor(Math.random() * daysInMonth) + 1;
+      leaveDays.add(randomDay);
+    }
+    return Array.from(leaveDays);
+  };
+
   const monthDays = getDaysInMonth(selectedMonth);
   const firstDay = getFirstDayOfMonth(selectedMonth);
   const calendarDays = [];
@@ -140,34 +157,6 @@ export default function MissionsPage() {
   for (let i = 1; i <= monthDays; i++) {
     calendarDays.push(i);
   }
-
-  const getHoliday = (day: number) => {
-    const month = selectedMonth.getMonth() + 1;
-    const key = `${month}-${day}`;
-    // Fixed Gazetted Holidays in India + major festivals (approx for 2024/25)
-    const holidays: Record<string, string> = {
-      '1-26': 'Republic Day',
-      '3-8': 'Maha Shivaratri',
-      '3-25': 'Holi',
-      '3-29': 'Good Friday',
-      '4-11': 'Id-ul-Fitr',
-      '4-14': 'Ambedkar Jayanti',
-      '4-17': 'Ram Navami',
-      '4-21': 'Mahavir Jayanti',
-      '5-23': 'Buddha Purnima',
-      '6-17': 'Id-ul-Zuha',
-      '7-17': 'Muharram',
-      '8-15': 'Independence Day',
-      '8-26': 'Janmashtami',
-      '9-16': 'Milad-un-Nabi',
-      '10-2': 'Gandhi Jayanti',
-      '10-12': 'Dussehra',
-      '10-31': 'Diwali',
-      '11-15': 'Guru Nanak Jayanti',
-      '12-25': 'Christmas',
-    };
-    return holidays[key];
-  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -256,15 +245,18 @@ export default function MissionsPage() {
                   selectedMonth.getMonth() === new Date().getMonth() &&
                   selectedMonth.getFullYear() === new Date().getFullYear();
               
-              const isHoliday = day ? getHoliday(day, selectedMonth.getMonth() + 1) : false;
+              const currentMonthNumber = selectedMonth.getMonth() + 1;
+              const isHoliday = day ? getHoliday(day, currentMonthNumber) : false;
+              const isLeaveDay = day && randomLeaveDays.includes(day);
 
               return (
                 <View
                   key={index}
                   style={[
                     styles.calendarDay,
-                    isToday ? styles.todayDay : null,
-                    isHoliday ? styles.holidayDay : null,
+                    isToday && styles.todayDay,
+                    isHoliday && styles.holidayDay,
+                    isLeaveDay && styles.leaveDay, // Apply leave day style
                   ]}
                 >
                   {day ? (
@@ -272,7 +264,8 @@ export default function MissionsPage() {
                       style={[
                         styles.dayText,
                         isToday ? styles.todayText : null,
-                        isHoliday ? styles.holidayText : null,
+                        isHoliday && styles.holidayText,
+                        isLeaveDay && styles.leaveText, // Apply leave text style
                       ]}
                     >
                       {day}
@@ -291,7 +284,7 @@ export default function MissionsPage() {
           <View style={styles.missionsGrid}>
             {missions.map((mission, index) => {
               const [d, m] = mission.date.split('/').map(Number);
-              const holidayName = getHoliday(d, m);
+              const holidayName = getHoliday(d, m); // Use the corrected getHoliday
 
               return (
                 <Animated.View key={mission.id} entering={FadeInDown.delay(index * 100).duration(500)} style={[styles.missionCard, holidayName ? styles.restDayCard : null]}>

@@ -5,13 +5,58 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 
 const EMAILS = [
   {
+    id: '0',
+    from: 'Air Force Station Yelahanka',
+    email: 'stationhq.yelahanka@airforce.gov.in',
+    subject: 'OFFICIAL MOVEMENT ORDER: C-295 Flight Training – Seattle, USA',
+    time: '15 Sep, 03:21 PM',
+    read: false,
+    body: `CONFIDENTIAL // RESTRICTED // OFFICIAL MOVEMENT ORDER
+Ref: IAF/TC/YEL/OPS-TRG/2026/C295-089
+Date: 15 September 2026 | Time: 15:21 hrs IST
+From: Station Commander, Air Force Station Yelahanka, Bengaluru - 560063
+To: First Officer Rishabh Tripathi (Personal No. 34892-F)
+Classification: PRIORITY-1 OPERATIONAL ORDER
+
+1. DIRECTIVE & OBJECTIVE:
+Under the authority of Air Headquarters and Headquarters Training Command, you are hereby ordered to report for overseas advanced conversion and operational flight training on the Airbus C-295 MW Medium Tactical Transport Aircraft. The specialized flight syllabus and simulator exercises are scheduled to be conducted at King County International Airport (Boeing Field), Seattle, Washington, USA.
+
+2. FLIGHT ITINERARY & E-TICKET PARTICULARS:
+Travel authorization and electronic ticketing have been requisitioned and confirmed under Government Account (MoD Air Transport Authorization):
+• Booking Reference (PNR): IAF-DEF-9824C
+• Ticket Number: ETKT-098-7729104481
+• Sector 1: BLR (Kempegowda International Airport, Bengaluru) ➔ IAD (Washington Dulles International Airport)
+• Sector 2: IAD (Washington Dulles International Airport) ➔ SEA (Seattle-Tacoma / King County Sector)
+• Flight Schedule: Tomorrow at 01:30 PM (16 September 2026, 13:30 hrs IST)
+• Reporting Time: Terminal 2, BLR Airport at 10:30 hrs IST (T-3 hours for security clearance)
+• Class of Travel: Official Military Entitlement / Priority Business Class
+
+3. TRAINING VENUE & REPORTING INSTRUCTIONS:
+• Training Facility: C-295 Tactical Flight Training Center, King County International Airport, Seattle, WA, USA.
+• Training Duration: 21 Days (Advanced Avionics, Tactical Low-Level Navigation, Assault Landing, and Synthetic Flight Simulators).
+• In-Country Contact / Reporting Officer: Wing Commander V. Nair, IAF Overseas Liaison Officer, Seattle Detachment.
+
+4. ADMINISTRATIVE & TRAVEL CLEARANCE:
+• Ensure carriage of Official White Passport with valid US A-2 Military Visa endorsement.
+• Department of Defense (DoD) flight line security clearance pass and travel orders docket are attached to your movement envelope.
+• Per Diem / Daily Allowance (DA) and government quarters in Seattle have been pre-allocated.
+
+5. IMMEDIATE ACKNOWLEDGEMENT:
+You are instructed to acknowledge receipt of this signal immediately via secure comms and obtain station departure clearance from AFS Yelahanka Operations Wing before departure.
+
+Authenticated & Issued by:
+Air Officer Commanding (AOC)
+Air Force Station Yelahanka, Indian Air Force
+[IAF-NET PGP SIGNATURE VERIFIED: KEY-ID 8F2A-99B1-YELAHANKA]`,
+  },
+  {
     id: '1',
     from: 'Command Centre',
     email: 'command.centre@airforce.gov.in',
-    subject: 'Urgent: Deployment Orders - Sector 7',
+    subject: 'Urgent: Deployment Orders at Base',
     time: '10:30 AM',
     read: false,
-    body: 'Briefing at 1400 hrs regarding immediate deployment protocols for Sector 7. All unit heads to attend via secure line channel 4. Preparedness status report required by 1200 hrs.',
+    body: 'Dear First Officer, You are hereby ordered to report to the Command Centre at Base Alpha for immediate deployment. Your upcoming leave request for 24-25 August is being cancelled and you can give us any date for the last week to grant you leave. It is an emergency and urgency that requires your presence. Thank you.',
   },
   {
     id: '2',
@@ -48,6 +93,15 @@ const EMAILS = [
     time: '1 week ago',
     read: true,
     body: 'Minor disruptions expected in fuel supply chain for the eastern sector due to inclement weather. Ensure reserve tanks are maintained at operational capacity.',
+  },
+  {
+    id: '6',
+    from: 'HR Department',
+    email: 'hr.dept@airforce.gov.in',
+    subject: 'Annual Leave Policy Update 2024',
+    time: 'Yesterday',
+    read: true,
+    body: 'Please review the attached document regarding changes to the annual leave accumulation and encashment policies effective April 1st. Key changes include extension of carry-forward limits for deployed personnel.',
   },
 ];
 
