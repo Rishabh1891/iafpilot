@@ -5,6 +5,31 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 
 const EMAILS = [
   {
+    id: '8',
+    from: 'Flight Operations',
+    email: 'flight.operations@airforce.gov.in',
+    subject: 'SG141 उड़ान रद्द: BLR–DEL',
+    time: '7 Nov 2026, 12:54 AM',
+    read: false,
+    body: `अधिकारी ऋषभ त्रिपाठी,
+
+हमें खेद है कि 7 नवंबर 2026 को उड़ान SG141 (बेंगलुरु से दिल्ली) अपरिहार्य परिचालन कारणों से रद्द कर दी गई है। आपकी यात्रा योजनाओं में हुई असुविधा के लिए हम हार्दिक क्षमा चाहते हैं। कृपया पुनर्निर्धारण और सहायता हेतु हमारी टीम से संपर्क करें।`,
+  },
+  {
+    id: '7',
+    from: 'MCO Bengaluru',
+    email: 'mco-bengaluru@airforce.gov.in',
+    subject: 'Train Change: T.No. 15707 on 09.10.26',
+    time: '8 Oct 2026',
+    read: false,
+    body: `Hi First Officer Rishabh,
+
+PLEASE NOTE:T.NO.15707 EX KIR ON 09.10.26 IS DIVERTED VIA CPR-ARJ-BSB-AYC-BBK WITH SKIPPING STOPAGE EKMA,SV,,MW,DEOS,GKP,KLD,BST,MUR,GD,CLJ.PLAN JOURNEY SAME.IR. .IR.
+
+Thank you,
+Jai Hind.`,
+  },
+  {
     id: '0',
     from: 'Air Force Station Yelahanka',
     email: 'stationhq.yelahanka@airforce.gov.in',
